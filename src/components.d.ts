@@ -20,6 +20,17 @@ export namespace Components {
          */
         "middle"?: string;
     }
+    interface MyDropdown {
+        "label"?: string;
+    }
+    interface MyDropdownOption {
+        "label": string;
+        /**
+          * @default false
+         */
+        "selected": boolean;
+        "value": string;
+    }
 }
 declare global {
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
@@ -28,11 +39,27 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLMyDropdownElement extends Components.MyDropdown, HTMLStencilElement {
+    }
+    var HTMLMyDropdownElement: {
+        prototype: HTMLMyDropdownElement;
+        new (): HTMLMyDropdownElement;
+    };
+    interface HTMLMyDropdownOptionElement extends Components.MyDropdownOption, HTMLStencilElement {
+    }
+    var HTMLMyDropdownOptionElement: {
+        prototype: HTMLMyDropdownOptionElement;
+        new (): HTMLMyDropdownOptionElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
+        "my-dropdown": HTMLMyDropdownElement;
+        "my-dropdown-option": HTMLMyDropdownOptionElement;
     }
 }
 declare namespace LocalJSX {
+    type OneOf<K extends string, PropT, AttrT = PropT> = { [P in K]: PropT } & { [P in `attr:${K}` | `prop:${K}`]?: never } | { [P in `attr:${K}`]: AttrT } & { [P in K | `prop:${K}`]?: never } | { [P in `prop:${K}`]: PropT } & { [P in K | `attr:${K}`]?: never };
+
     interface MyComponent {
         /**
           * The first name
@@ -47,15 +74,36 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface MyDropdown {
+        "label"?: string;
+    }
+    interface MyDropdownOption {
+        "label": string;
+        /**
+          * @default false
+         */
+        "selected"?: boolean;
+        "value": string;
+    }
 
     interface MyComponentAttributes {
         "first": string;
         "middle": string;
         "last": string;
     }
+    interface MyDropdownAttributes {
+        "label": string;
+    }
+    interface MyDropdownOptionAttributes {
+        "value": string;
+        "label": string;
+        "selected": boolean;
+    }
 
     interface IntrinsicElements {
         "my-component": Omit<MyComponent, keyof MyComponentAttributes> & { [K in keyof MyComponent & keyof MyComponentAttributes]?: MyComponent[K] } & { [K in keyof MyComponent & keyof MyComponentAttributes as `attr:${K}`]?: MyComponentAttributes[K] } & { [K in keyof MyComponent & keyof MyComponentAttributes as `prop:${K}`]?: MyComponent[K] };
+        "my-dropdown": Omit<MyDropdown, keyof MyDropdownAttributes> & { [K in keyof MyDropdown & keyof MyDropdownAttributes]?: MyDropdown[K] } & { [K in keyof MyDropdown & keyof MyDropdownAttributes as `attr:${K}`]?: MyDropdownAttributes[K] } & { [K in keyof MyDropdown & keyof MyDropdownAttributes as `prop:${K}`]?: MyDropdown[K] };
+        "my-dropdown-option": Omit<MyDropdownOption, keyof MyDropdownOptionAttributes> & { [K in keyof MyDropdownOption & keyof MyDropdownOptionAttributes]?: MyDropdownOption[K] } & { [K in keyof MyDropdownOption & keyof MyDropdownOptionAttributes as `attr:${K}`]?: MyDropdownOptionAttributes[K] } & { [K in keyof MyDropdownOption & keyof MyDropdownOptionAttributes as `prop:${K}`]?: MyDropdownOption[K] } & OneOf<"value", MyDropdownOption["value"], MyDropdownOptionAttributes["value"]> & OneOf<"label", MyDropdownOption["label"], MyDropdownOptionAttributes["label"]>;
     }
 }
 export { LocalJSX as JSX };
@@ -63,6 +111,8 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.IntrinsicElements["my-component"] & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "my-dropdown": LocalJSX.IntrinsicElements["my-dropdown"] & JSXBase.HTMLAttributes<HTMLMyDropdownElement>;
+            "my-dropdown-option": LocalJSX.IntrinsicElements["my-dropdown-option"] & JSXBase.HTMLAttributes<HTMLMyDropdownOptionElement>;
         }
     }
 }
