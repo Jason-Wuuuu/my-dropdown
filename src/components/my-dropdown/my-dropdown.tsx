@@ -15,6 +15,7 @@ export class MyDropdown {
   @State() focusedIndex: number = -1;
 
   @State() filterText: string = '';
+  private filterInputRef?: HTMLInputElement;
 
   async componentWillLoad() {
     const options = this.getOptions();
@@ -76,6 +77,9 @@ export class MyDropdown {
   private open() {
     this.isOpen = true;
     this.focusedIndex = -1;
+
+    // ensure the input exists in the DOM before focus
+    requestAnimationFrame(() => this.filterInputRef?.focus());
   }
 
   private close() {
@@ -141,6 +145,7 @@ export class MyDropdown {
         e.preventDefault();
         if (this.focusedIndex <= 0) {
           this.setFocusedIndex(-1, visible);
+          this.filterInputRef?.focus();
         } else {
           this.setFocusedIndex(this.focusedIndex - 1, visible);
         }
@@ -186,6 +191,7 @@ export class MyDropdown {
                 role="combobox" // input that controls a popup
                 aria-controls="options-listbox"
                 aria-activedescendant={this.focusedIndex >= 0 ? `option-${this.focusedIndex}` : undefined} // current highlighted option
+                ref={el => (this.filterInputRef = el)}
               />
             </div>
 
