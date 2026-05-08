@@ -19,5 +19,6 @@
 
 .option--selected {
   font-size: var(--dropdown-selected-font-size);
+  color: blue;
   font-weight: 700;
 }

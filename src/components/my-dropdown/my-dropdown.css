@@ -106,7 +106,7 @@
 
 .dropdown_no-results {
   font-size: var(--dropdown-font-size);
-  padding: var(--dropdown-padding);
+  padding: var(--dropdown-option-padding);
   font-weight: 600;
   color: red;
 }
