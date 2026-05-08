@@ -1,0 +1,23 @@
+.option {
+  cursor: pointer;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  font-size: 12px;
+}
+
+.option:hover {
+  background: #ddd;
+}
+
+:host([aria-current]) .option {
+  /* background: #333; */
+  /* color: #fff; */
+
+  border-left: #333 solid 4px;
+}
+
+.option--selected {
+  font-size: 14px;
+  font-weight: 700;
+}

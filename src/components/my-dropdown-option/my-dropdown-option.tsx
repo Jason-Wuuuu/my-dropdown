@@ -1,4 +1,4 @@
-import { Component, Prop, State, h } from '@stencil/core';
+import { Component, Prop, h } from '@stencil/core';
 
 @Component({
   tag: 'my-dropdown-option',
@@ -12,8 +12,8 @@ export class MyDropdown {
 
   render() {
     return (
-      <div>
-        <span>{this.selected && 'v '}</span>
+      <div class={{ 'option': true, 'option--selected': this.selected }}>
+        <span>{this.selected && '> '}</span>
         <span>{this.label}</span>
       </div>
     );

@@ -1,4 +1,4 @@
-import { Element, Component, Prop, State, h } from '@stencil/core';
+import { Element, Component, Prop, State, h, Listen } from '@stencil/core';
 
 @Component({
   tag: 'my-dropdown',
@@ -12,10 +12,11 @@ export class MyDropdown {
 
   @State() isOpen: boolean = false;
   @State() selectedValues: Set<string> = new Set();
+  @State() focusedIndex: number = -1;
 
   @State() filterText: string = '';
 
-  componentDidLoad() {
+  async componentWillLoad() {
     const options = this.getOptions();
     const initValues = new Set(options.filter(option => option.selected).map(option => option.value));
 
@@ -24,7 +25,15 @@ export class MyDropdown {
 
   // options
   private getOptions() {
-    return Array.from(this.el.querySelectorAll('my-dropdown-option'));
+    const options = Array.from(this.el.querySelectorAll('my-dropdown-option'));
+    // console.log(options);
+    return options;
+  }
+
+  private getVisibleOptions() {
+    const visibleOptions = this.getOptions().filter(option => !option.hasAttribute('hidden'));
+    // console.log(visibleOptions);
+    return visibleOptions;
   }
 
   private toggleOption(option: HTMLMyDropdownOptionElement) {
@@ -48,15 +57,26 @@ export class MyDropdown {
     if (target) this.toggleOption(target);
   }
 
+  private setFocusedIndex(index: number, visible: HTMLMyDropdownOptionElement[]) {
+    this.getOptions().forEach(option => option.removeAttribute('aria-current'));
+    this.focusedIndex = index;
+
+    if (index >= 0 && visible[index]) {
+      visible[index].setAttribute('aria-current', 'true');
+    }
+  }
+
   // open / close
   private open() {
     this.isOpen = true;
+    this.focusedIndex = -1;
   }
 
   private close() {
     if (!this.isOpen) return;
     this.isOpen = false;
     this.filterText = '';
+    this.focusedIndex = -1;
 
     this.getOptions().forEach(option => {
       option.hidden = false;
@@ -86,20 +106,62 @@ export class MyDropdown {
     });
   }
 
+  // keyboard
+  @Listen('keydown')
+  onKeyDown(e: KeyboardEvent) {
+    if (!this.isOpen) {
+      return;
+    }
+
+    const visible = this.getVisibleOptions();
+
+    switch (e.key) {
+      case 'Escape':
+        e.preventDefault();
+        this.close();
+        break;
+
+      case 'ArrowDown':
+        e.preventDefault();
+        this.setFocusedIndex(Math.min(this.focusedIndex + 1, visible.length - 1), visible);
+        break;
+
+      case 'ArrowUp':
+        e.preventDefault();
+        if (this.focusedIndex <= 0) {
+          this.setFocusedIndex(-1, visible);
+        } else {
+          this.setFocusedIndex(this.focusedIndex - 1, visible);
+        }
+        break;
+
+      case 'Enter':
+        e.preventDefault();
+        if (this.focusedIndex >= 0 && visible[this.focusedIndex]) {
+          this.toggleOption(visible[this.focusedIndex]);
+        }
+        break;
+    }
+  }
+
   render() {
     return (
-      <div>
-        {this.label && <h3>{this.label}</h3>}
+      <div class={{ dropdown: true }}>
+        {this.label && <p class={{ dropdown_label: true }}>{this.label}</p>}
 
-        <button type="button" onClick={() => (this.isOpen ? this.close() : this.open())}>
-          {this.getTriggerLabel()}
+        <button class={{ dropdown_trigger: true }} type="button" onClick={() => (this.isOpen ? this.close() : this.open())}>
+          <span>{this.getTriggerLabel()}</span>
+          <span>{this.isOpen ? '▲' : '▼'}</span>
         </button>
 
         {this.isOpen && (
-          <div>
-            <label htmlFor="filterText">Filter:</label>
-            <input id="filterText" type="text" placeholder="type here" value={this.filterText} onInput={e => this.onFilterInput(e)} />
-            <div onClick={e => this.onOptionClick(e)}>
+          <div class={{ dropdown_container: true }}>
+            <div class={{ filter: true }}>
+              <label htmlFor="filterText">Filter:</label>
+              <input id="filterText" class={{ filter_input: true }} type="text" placeholder="type here" value={this.filterText} onInput={e => this.onFilterInput(e)} />
+            </div>
+
+            <div class={{ dropdown_options: true }} onClick={e => this.onOptionClick(e)}>
               <slot />
 
               {/* {this.filterText.length > 0 && <div>No match</div>} */}
