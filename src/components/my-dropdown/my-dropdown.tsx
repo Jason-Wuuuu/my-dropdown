@@ -17,6 +17,8 @@ export class MyDropdown {
   @State() filterText: string = '';
   private filterInputRef?: HTMLInputElement;
 
+  private triggerRef?: HTMLButtonElement;
+
   async componentWillLoad() {
     const options = this.getOptions();
     const initValues = new Set(options.filter(option => option.selected).map(option => option.value));
@@ -101,7 +103,7 @@ export class MyDropdown {
       .filter(option => this.selectedValues.has(option.value))
       .map(option => option.label);
 
-    return labels.length === 1 ? labels[0] : `${labels.length} selected`;
+    return labels.length === 1 ? labels[0] : `${labels.join(', ')}`;
   }
 
   private onFilterInput(e: Event) {
@@ -134,6 +136,7 @@ export class MyDropdown {
       case 'Escape':
         e.preventDefault();
         this.close();
+        this.triggerRef?.focus();
         break;
 
       case 'ArrowDown':
@@ -161,9 +164,16 @@ export class MyDropdown {
   }
 
   render() {
+    const selectedCount = this.selectedValues.size;
+
+    const visibleOptions = this.getVisibleOptions();
+    const hasNoResults = this.isOpen && this.filterText.length > 0 && visibleOptions.length === 0;
+
     return (
       <div class={{ dropdown: true }}>
-        {this.label && <p class={{ dropdown_label: true }}>{this.label}</p>}
+        <p class={{ dropdown_label: true }}>
+          {this.label && this.label} {selectedCount > 0 && <span class="label_count">{this.label ? `(${selectedCount})` : `${selectedCount} selected`}</span>}
+        </p>
 
         <button
           class={{ dropdown_trigger: true }}
@@ -172,6 +182,7 @@ export class MyDropdown {
           aria-haspopup="listbox" // tell the screen reader this will opens a list of option
           aria-expanded={this.isOpen} // whether dropdown is opened
           aria-controls="options-listbox"
+          ref={el => (this.triggerRef = el)}
         >
           <span>{this.getTriggerLabel()}</span>
           <span aria-hidden="true">{this.isOpen ? '▲' : '▼'}</span>
@@ -205,8 +216,11 @@ export class MyDropdown {
               aria-label={this.label}
             >
               <slot />
-
-              {/* {this.filterText.length > 0 && <div>No match</div>} */}
+              {hasNoResults && (
+                <p class="dropdown_no-results" role="status">
+                  No results
+                </p>
+              )}
             </div>
           </div>
         )}

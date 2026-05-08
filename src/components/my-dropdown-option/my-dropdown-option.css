@@ -4,6 +4,9 @@
   gap: 8px;
   padding: 12px;
   font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .option:hover {
@@ -11,9 +14,6 @@
 }
 
 :host([aria-current]) .option {
-  /* background: #333; */
-  /* color: #fff; */
-
   border-left: #333 solid 4px;
 }
 
