@@ -160,19 +160,44 @@ export class MyDropdown {
       <div class={{ dropdown: true }}>
         {this.label && <p class={{ dropdown_label: true }}>{this.label}</p>}
 
-        <button class={{ dropdown_trigger: true }} type="button" onClick={() => (this.isOpen ? this.close() : this.open())}>
+        <button
+          class={{ dropdown_trigger: true }}
+          type="button"
+          onClick={() => (this.isOpen ? this.close() : this.open())}
+          aria-haspopup="listbox" // tell the screen reader this will opens a list of option
+          aria-expanded={this.isOpen} // whether dropdown is opened
+          aria-controls="options-listbox"
+        >
           <span>{this.getTriggerLabel()}</span>
-          <span>{this.isOpen ? '▲' : '▼'}</span>
+          <span aria-hidden="true">{this.isOpen ? '▲' : '▼'}</span>
         </button>
 
         {this.isOpen && (
           <div class={{ dropdown_container: true }}>
             <div class={{ filter: true }}>
               <label htmlFor="filterText">Filter:</label>
-              <input id="filterText" class={{ filter_input: true }} type="text" placeholder="type here" value={this.filterText} onInput={e => this.onFilterInput(e)} />
+              <input
+                id="filterText"
+                class={{ filter_input: true }}
+                type="text"
+                placeholder="type here"
+                value={this.filterText}
+                onInput={e => this.onFilterInput(e)}
+                role="combobox" // input that controls a popup
+                aria-controls="options-listbox"
+                aria-activedescendant={this.focusedIndex >= 0 ? `option-${this.focusedIndex}` : undefined} // current highlighted option
+              />
             </div>
 
-            <div class={{ dropdown_options: true }} onClick={e => this.onOptionClick(e)}>
+            <div
+              id="options-listbox"
+              class={{ dropdown_options: true }}
+              onClick={e => this.onOptionClick(e)}
+              part="menu"
+              role="listbox" // container of selectable options
+              aria-multiselectable="true"
+              aria-label={this.label}
+            >
               <slot />
 
               {/* {this.filterText.length > 0 && <div>No match</div>} */}

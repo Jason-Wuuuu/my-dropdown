@@ -5,15 +5,15 @@ import { Component, Prop, h } from '@stencil/core';
   styleUrl: 'my-dropdown-option.css',
   shadow: true,
 })
-export class MyDropdown {
+export class MyDropdownOption {
   @Prop() value!: string;
   @Prop() label!: string;
-  @Prop() selected: boolean = false;
+  @Prop({ mutable: true }) selected: boolean = false;
 
   render() {
     return (
-      <div class={{ 'option': true, 'option--selected': this.selected }}>
-        <span>{this.selected && '> '}</span>
+      <div class={{ 'option': true, 'option--selected': this.selected }} role="option" aria-selected={String(this.selected)}>
+        <span aria-hidden="true">{this.selected && '> '}</span>
         <span>{this.label}</span>
       </div>
     );
