@@ -22,6 +22,10 @@ export namespace Components {
     }
     interface MyDropdown {
         "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size": 'sm' | 'md' | 'lg';
     }
     interface MyDropdownOption {
         "label": string;
@@ -76,6 +80,10 @@ declare namespace LocalJSX {
     }
     interface MyDropdown {
         "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size"?: 'sm' | 'md' | 'lg';
     }
     interface MyDropdownOption {
         "label": string;
@@ -93,6 +101,7 @@ declare namespace LocalJSX {
     }
     interface MyDropdownAttributes {
         "label": string;
+        "size": 'sm' | 'md' | 'lg';
     }
     interface MyDropdownOptionAttributes {
         "value": string;

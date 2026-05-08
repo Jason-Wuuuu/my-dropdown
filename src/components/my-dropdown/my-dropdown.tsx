@@ -9,6 +9,7 @@ export class MyDropdown {
   @Element() el!: HTMLElement;
 
   @Prop() label?: string;
+  @Prop() size: 'sm' | 'md' | 'lg' = 'md';
 
   @State() isOpen: boolean = false;
   @State() selectedValues: Set<string> = new Set();
@@ -170,7 +171,7 @@ export class MyDropdown {
     const hasNoResults = this.isOpen && this.filterText.length > 0 && visibleOptions.length === 0;
 
     return (
-      <div class={{ dropdown: true }}>
+      <div class={{ dropdown: true, [this.size]: true }}>
         <p class={{ dropdown_label: true }}>
           {this.label && this.label} {selectedCount > 0 && <span class="label_count">{this.label ? `(${selectedCount})` : `${selectedCount} selected`}</span>}
         </p>
