@@ -27,6 +27,14 @@ export class MyDropdown {
     this.selectedValues = initValues;
   }
 
+  // close on outside click
+  @Listen('click', { target: 'document' })
+  onDocumentClick(e: MouseEvent) {
+    if (!this.el.contains(e.target as Node)) {
+      this.close();
+    }
+  }
+
   // options
   private getOptions() {
     const options = Array.from(this.el.querySelectorAll('my-dropdown-option'));
