@@ -12,8 +12,13 @@ export class MyDropdownOption {
 
   render() {
     return (
-      <div class={{ 'option': true, 'option--selected': this.selected }} role="option" aria-selected={String(this.selected)}>
-        <span aria-hidden="true">{this.selected && '> '}</span>
+      <div
+        class={{ 'option': true, 'option--selected': this.selected }}
+        part={`option${this.selected ? ' option--selected' : ''}`}
+        role="option"
+        aria-selected={String(this.selected)}
+      >
+        <span aria-hidden="true">{this.selected && '>'}</span>
         <span>{this.label}</span>
       </div>
     );

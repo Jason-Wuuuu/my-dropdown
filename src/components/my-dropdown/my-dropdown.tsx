@@ -192,6 +192,7 @@ export class MyDropdown {
         <button
           class={{ dropdown_trigger: true }}
           type="button"
+          part="trigger"
           onClick={() => (this.isOpen ? this.close() : this.open())}
           aria-haspopup="listbox" // tell the screen reader this will opens a list of option
           aria-expanded={this.isOpen} // whether dropdown is opened
@@ -203,12 +204,13 @@ export class MyDropdown {
         </button>
 
         {this.isOpen && (
-          <div class={{ dropdown_container: true }}>
-            <div class={{ filter: true }}>
+          <div class={{ dropdown_container: true }} part="dropdown">
+            <div class={{ filter: true }} part="filter">
               <label htmlFor="filterText">Filter:</label>
               <input
                 id="filterText"
                 class={{ filter_input: true }}
+                part="filter-input"
                 type="text"
                 placeholder="type here"
                 value={this.filterText}
