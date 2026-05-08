@@ -62,7 +62,13 @@ export class MyDropdown {
     this.focusedIndex = index;
 
     if (index >= 0 && visible[index]) {
-      visible[index].setAttribute('aria-current', 'true');
+      const focusedEl = visible[index];
+      focusedEl.setAttribute('aria-current', 'true');
+
+      focusedEl.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest', // scroll only when the element is hidden
+      });
     }
   }
 
@@ -110,6 +116,11 @@ export class MyDropdown {
   @Listen('keydown')
   onKeyDown(e: KeyboardEvent) {
     if (!this.isOpen) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        this.open();
+      }
+
       return;
     }
 
