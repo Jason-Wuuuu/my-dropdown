@@ -2,6 +2,8 @@
   cursor: pointer;
   align-items: center;
   gap: 8px;
+  background: var(--color-dropdown-bg);
+  color: var(--color-dropdown-text);
   padding: var(--dropdown-option-padding);
   font-size: var(--dropdown-font-size);
   overflow: hidden;
@@ -10,15 +12,15 @@
 }
 
 .option:hover {
-  background: #ddd;
+  background: var(--color-option-hover-bg);
 }
 
 :host([aria-current]) .option {
-  border-left: #333 solid 4px;
+  border-left: var(--color-border) solid 4px;
 }
 
 .option--selected {
   font-size: var(--dropdown-selected-font-size);
-  color: blue;
+  color: var(--color-option-selected-text);
   font-weight: 700;
 }

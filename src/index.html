@@ -12,7 +12,7 @@
     <!-- <my-component first="Stencil" middle="'Don't call me a framework'" last="JS"></my-component> -->
 
     <!-- <my-dropdown> -->
-    <div style="padding: 20px">
+    <div style="padding: 20px; font-family: sans-serif">
       <my-dropdown id="demo">
         <my-dropdown-option value="iphone" label="iPhone" selected></my-dropdown-option>
         <my-dropdown-option value="airpods" label="AirPods"></my-dropdown-option>
@@ -31,7 +31,7 @@
         });
       </script>
 
-      <h1>Label & Size</h1>
+      <h2>Label & Size</h2>
       <my-dropdown label="Apple Products Small" size="sm">
         <my-dropdown-option value="iphone" label="iPhone" selected></my-dropdown-option>
         <my-dropdown-option value="airpods" label="AirPods"></my-dropdown-option>
@@ -46,7 +46,7 @@
 
       <my-dropdown label="Apple Products Medium" size="md">
         <my-dropdown-option value="iphone" label="iPhone" selected></my-dropdown-option>
-        <my-dropdown-option value="airpods" label="AirPods"></my-dropdown-option>
+        <my-dropdown-option value="airpods" label="AirPods" selected></my-dropdown-option>
         <my-dropdown-option value="airpods_pro" label="AirPods Pro"></my-dropdown-option>
         <my-dropdown-option value="ipad" label="iPad"></my-dropdown-option>
         <my-dropdown-option value="ipad_air" label="iPad Air"></my-dropdown-option>
@@ -55,11 +55,13 @@
         <my-dropdown-option value="macbook_pro" label="MacBook Pro"></my-dropdown-option>
         <my-dropdown-option value="long_text_item" label="This is a long long long text item"></my-dropdown-option>
       </my-dropdown>
+    </div>
 
-      <my-dropdown label="Apple Products Large" size="lg">
+    <div style="width: 400px; height: 400px; background-color: black; padding: 10px">
+      <my-dropdown label="Apple Products Large" size="lg" data-theme="dark">
         <my-dropdown-option value="iphone" label="iPhone" selected></my-dropdown-option>
-        <my-dropdown-option value="airpods" label="AirPods"></my-dropdown-option>
-        <my-dropdown-option value="airpods_pro" label="AirPods Pro"></my-dropdown-option>
+        <my-dropdown-option value="airpods" label="AirPods" selected></my-dropdown-option>
+        <my-dropdown-option value="airpods_pro" label="AirPods Pro" selected></my-dropdown-option>
         <my-dropdown-option value="ipad" label="iPad"></my-dropdown-option>
         <my-dropdown-option value="ipad_air" label="iPad Air"></my-dropdown-option>
         <my-dropdown-option value="ipad_pro" label="iPad Pro"></my-dropdown-option>
