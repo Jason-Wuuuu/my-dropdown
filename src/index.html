@@ -13,7 +13,7 @@
 
     <!-- <my-dropdown> -->
     <div style="padding: 20px">
-      <my-dropdown>
+      <my-dropdown id="demo">
         <my-dropdown-option value="iphone" label="iPhone" selected></my-dropdown-option>
         <my-dropdown-option value="airpods" label="AirPods"></my-dropdown-option>
         <my-dropdown-option value="airpods_pro" label="AirPods Pro"></my-dropdown-option>
@@ -24,6 +24,12 @@
         <my-dropdown-option value="macbook_pro" label="MacBook Pro"></my-dropdown-option>
         <my-dropdown-option value="long_text_item" label="This is a long long long text item"></my-dropdown-option>
       </my-dropdown>
+
+      <script>
+        document.getElementById('demo').addEventListener('selectionChange', e => {
+          console.log(e.detail);
+        });
+      </script>
 
       <h1>Label & Size</h1>
       <my-dropdown label="Apple Products Small" size="sm">

@@ -1,4 +1,4 @@
-import { Element, Component, Prop, State, h, Listen } from '@stencil/core';
+import { Element, Component, Prop, State, h, Listen, Event, EventEmitter } from '@stencil/core';
 
 @Component({
   tag: 'my-dropdown',
@@ -19,6 +19,9 @@ export class MyDropdown {
   private filterInputRef?: HTMLInputElement;
 
   private triggerRef?: HTMLButtonElement;
+
+  // emits the array of selected values
+  @Event() selectionChange!: EventEmitter<string[]>;
 
   async componentWillLoad() {
     const options = this.getOptions();
@@ -60,6 +63,8 @@ export class MyDropdown {
     }
 
     this.selectedValues = next;
+
+    this.selectionChange.emit(Array.from(this.selectedValues));
   }
 
   private onOptionClick(e: MouseEvent) {
