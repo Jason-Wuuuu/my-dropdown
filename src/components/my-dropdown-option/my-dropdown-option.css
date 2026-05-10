@@ -7,6 +7,11 @@
   color: var(--color-dropdown-text);
   padding: var(--dropdown-option-padding);
   font-size: var(--dropdown-font-size);
+}
+
+.option span:last-child {
+  flex: 1;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
